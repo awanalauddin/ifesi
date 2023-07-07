@@ -298,10 +298,10 @@ input::placeholder{
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        daysDisplay.textContent = days + "d";
-        hoursDisplay.textContent = hours + "h";
-        minutesDisplay.textContent = minutes + "m";
-        secondsDisplay.textContent = seconds + "s";
+        daysDisplay.textContent = days;
+        hoursDisplay.textContent = hours;
+        minutesDisplay.textContent = minutes;
+        secondsDisplay.textContent = seconds;
 
         if (timeRemaining <= 0) {
           clearInterval(countdown);
