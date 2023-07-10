@@ -219,22 +219,22 @@ input::placeholder{
 						<div class="page-title">
 
 							<h1>We are launching soon!</h1>
-
+							<!-- <div class="timer" id="timer" style="color: #000;">00d 00h 00m 00s</div> -->
 							<div id="countdown-clock">
 								<div class="time">
-									<span class="days"></span>
+									<span class="days" id="days"></span>
 									<small>Days</small>
 								</div>
 								<div class="time">
-									<span class="hours"></span>
+									<span class="hours" id="hours"></span>
 									<small>Hours</small>
 								</div>
 								<div class="time">
-									<span class="minutes"></span>
+									<span class="minutes" id="minutes"></span>
 									<small>Minutes</small>
 								</div>
 								<div class="time">
-									<span class="seconds"></span>
+									<span class="seconds" id="seconds"></span>
 									<small>Seconds</small>
 								</div>
 							</div>
@@ -283,50 +283,44 @@ input::placeholder{
 
 
 <script type="text/javascript">
-	function getTimeRemaining(endtime) {
-		const total = Date.parse(endtime) - Date.parse(new Date());
-		const seconds = Math.floor((total / 1000) % 60);
-		const minutes = Math.floor((total / 1000 / 60) % 60);
-		const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-		const days = Math.floor(total / (1000 * 60 * 60 * 24));
+  function startTimer(stopDate, daysDisplay, hoursDisplay, minutesDisplay, secondsDisplay) {
+      var countdown = setInterval(function () {
+        var currentDate = new Date().getTime();
+        var timeRemaining = stopDate - currentDate;
 
-	return {
-	total,
-	days,
-	hours,
-	minutes,
-	seconds
-	};
-	}
+        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-	function initializeClock(id, endtime) {
-		const clock = document.getElementById(id);
-		const daysSpan = clock.querySelector('.days');
-		const hoursSpan = clock.querySelector('.hours');
-		const minutesSpan = clock.querySelector('.minutes');
-		const secondsSpan = clock.querySelector('.seconds');
+        days = days < 10 ? "0" + days : days;
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
 
-	function updateClock() {
-	const t = getTimeRemaining(endtime);
+        daysDisplay.textContent = days + "d";
+        hoursDisplay.textContent = hours + "h";
+        minutesDisplay.textContent = minutes + "m";
+        secondsDisplay.textContent = seconds + "s";
 
-	daysSpan.innerHTML = t.days;
-	hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-	minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-	secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+        if (timeRemaining <= 0) {
+          clearInterval(countdown);
+          daysDisplay.textContent = "00d";
+          hoursDisplay.textContent = "00h";
+          minutesDisplay.textContent = "00m";
+          secondsDisplay.textContent = "00s";
+        }
+      }, 1000);
+    }
 
-	if (t.total <= 0) {
-	  clearInterval(timeinterval);
-	}
-	}
-
-	updateClock();
-	const timeinterval = setInterval(updateClock, 1000);
-	}
-
-	const deadline = new Date(Date.parse(new Date()) + 28 * 24 * 60 * 60 * 1000);
-	initializeClock('countdown-clock', deadline);
-</script>
-
-
+    window.onload = function () {
+      var stopDate = new Date('October 12, 2023 00:00:00').getTime(); // Replace with your stop date
+      var daysDisplay = document.getElementById('days');
+      var hoursDisplay = document.getElementById('hours');
+      var minutesDisplay = document.getElementById('minutes');
+      var secondsDisplay = document.getElementById('seconds');
+      startTimer(stopDate, daysDisplay, hoursDisplay, minutesDisplay, secondsDisplay);
+    };
+  </script>
 </body>
 </html>

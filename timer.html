@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Timer</title>
+  <style>
+    .timer {
+      font-size: 48px;
+      text-align: center;
+      margin-top: 100px;
+    }
+  </style>
+  <script>
+    function startTimer(duration, daysDisplay, hoursDisplay, minutesDisplay, secondsDisplay) {
+      var timer = duration, days, hours, minutes, seconds;
+      setInterval(function () {
+        days = parseInt(timer / (24 * 60 * 60), 10);
+        hours = parseInt((timer % (24 * 60 * 60)) / (60 * 60), 10);
+        minutes = parseInt((timer % (60 * 60)) / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        days = days < 10 ? "0" + days : days;
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        daysDisplay.textContent = days + "d";
+        hoursDisplay.textContent = hours + "h";
+        minutesDisplay.textContent = minutes + "m";
+        secondsDisplay.textContent = seconds + "s";
+
+        if (--timer < 0) {
+          timer = duration;
+        }
+      }, 1000);
+    }
+
+    window.onload = function () {
+      var duration = 5 * 24 * 60 * 60; // 5 days in seconds
+      var daysDisplay = document.getElementById('days');
+      var hoursDisplay = document.getElementById('hours');
+      var minutesDisplay = document.getElementById('minutes');
+      var secondsDisplay = document.getElementById('seconds');
+      startTimer(duration, daysDisplay, hoursDisplay, minutesDisplay, secondsDisplay);
+    };
+  </script>
+</head>
+<body>
+  <h1>Simple Timer</h1>
+  <div class="timer">
+    <span id="days">00d</span>
+    <span id="hours">00h</span>
+    <span id="minutes">00m</span>
+    <span id="seconds">00s</span>
+  </div>
+</body>
+</html>
